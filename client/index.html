@@ -1,40 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>J.A.T.E</title>
-    
-      <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css">
-      </link>
-      <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js">
-      </script>
-      <script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/mode/javascript/javascript.min.js">
-      </script>
-      <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/theme/monokai.min.css">
-      </link>
-  </head>
-  <body>
-    <nav id="navbar">
-      <div class="nav-btn">
-        <a class="btn btn-sm btn-dark" id="buttonInstall" role="button">Install!</a>
-      </div>
-     <h1> Just Another Text Editor</h1>
-     
-      <div class="navbar-brand" 
-            ><img src="./assets/icons/icon_96x96.png"
-          /></div>
-    </nav>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171d2b">
+  <meta name="description" content="JATE Studio — a calm, offline-first home for notes and code.">
+  <title>JATE Studio — Your space to create</title>
+</head>
+<body>
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-pen" viewBox="0 0 24 24"><path d="m12 19 7-7 2-2a2 2 0 0 0-3-3l-2 2-7 7-2 5 5-2Z"/><path d="m15 9 3 3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 1 1 1.2-9.9 6 6 0 0 1 11.2 2.5A4 4 0 0 1 19 18Z"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 17v3h16v-3"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M4 17v3h16v-3"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14A8.5 8.5 0 0 1 10 3.5 8.5 8.5 0 1 0 20.5 14Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-focus" viewBox="0 0 24 24"><path d="M8 3H4a1 1 0 0 0-1 1v4m13-5h4a1 1 0 0 1 1 1v4M3 16v4a1 1 0 0 0 1 1h4m13-5v4a1 1 0 0 1-1 1h-4"/></symbol>
+    <symbol id="i-wrap" viewBox="0 0 24 24"><path d="M3 6h18M3 10h18M3 14h13a3 3 0 0 1 0 6h-3m3-3-3 3 3 3M3 20h6"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m5 4v7m4-7v7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 9V5a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3v14a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V9Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></symbol>
+  </svg>
 
-    <main id="main">
-      <div class="loading-container">
-        <div class="loading-spinner"></div>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="mobileMenu" class="icon-button mobile-only" aria-label="Open document navigation" aria-expanded="false"><svg class="icon"><use href="#i-menu"/></svg></button>
+        <div class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-pen"/></svg></div>
+        <div class="brand-wordmark">jate<span class="brand-period">.</span><span class="brand-studio">studio</span></div>
+        <span class="topbar-separator"></span>
+        <span class="workspace-label">My workspace</span>
       </div>
-    </main>
-    
-  </body>
+      <div class="topbar-right">
+        <span class="connection-state" id="networkStatus"><span class="connection-dot"></span><span>Available offline</span></span>
+        <button id="themeToggle" class="icon-button" title="Switch theme" aria-label="Switch theme"><svg class="icon"><use href="#i-moon"/></svg></button>
+        <button id="buttonInstall" class="button button-outline" hidden><svg class="icon"><use href="#i-download"/></svg><span>Install app</span></button>
+        <button id="newTopButton" class="button button-primary"><svg class="icon"><use href="#i-plus"/></svg><span>New document</span></button>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
+      <aside class="sidebar" id="sidebar" aria-label="Documents">
+        <div class="sidebar-heading">
+          <div><div class="eyebrow">YOUR LIBRARY</div><h2>Documents <span id="documentCount">0</span></h2></div>
+          <button class="icon-button sidebar-add" id="newSidebarButton" aria-label="Create document" title="New document"><svg class="icon"><use href="#i-plus"/></svg></button>
+        </div>
+        <label class="search-box" for="documentSearch">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <input id="documentSearch" type="search" placeholder="Search documents" autocomplete="off" aria-label="Search documents">
+          <kbd>⌘ K</kbd>
+        </label>
+        <div class="sidebar-section-label"><span>All documents</span><span id="filteredCount"></span></div>
+        <div id="documentList" class="document-list" aria-live="polite"></div>
+        <div class="sidebar-bottom">
+          <div class="sidebar-tip"><span class="sidebar-tip-icon">✦</span><div><strong>Your ideas, your device.</strong><p>Everything saves automatically, even without internet.</p></div></div>
+          <button id="exportAllButton" class="sidebar-link"><svg class="icon"><use href="#i-download"/></svg> Back up all documents <svg class="icon arrow"><use href="#i-arrow"/></svg></button>
+        </div>
+      </aside>
+
+      <main class="main-area" id="main">
+        <div class="main-inner">
+          <div class="breadcrumb"><span>Workspace</span><svg class="icon"><use href="#i-arrow"/></svg><span id="breadcrumbTitle">Welcome</span></div>
+          <section class="editor-shell" aria-label="Editor">
+            <div class="document-heading">
+              <div class="document-icon" aria-hidden="true"><svg class="icon"><use href="#i-file"/></svg></div>
+              <div class="document-heading-main">
+                <label for="documentTitle" class="visually-hidden">Document title</label>
+                <input id="documentTitle" type="text" value="Untitled document" autocomplete="off" spellcheck="false" maxlength="120" aria-label="Document title">
+                <div class="document-subtitle"><span id="saveStatus"><svg class="icon"><use href="#i-check"/></svg> Ready</span><span class="middle-dot">·</span><span id="lastEdited">Just now</span></div>
+              </div>
+              <button id="deleteButton" class="icon-button delete-button" aria-label="Delete current document" title="Delete document"><svg class="icon"><use href="#i-trash"/></svg></button>
+            </div>
+            <div class="toolbar" role="toolbar" aria-label="Editor tools">
+              <div class="toolbar-group">
+                <label for="languageSelect" class="visually-hidden">Language mode</label>
+                <select id="languageSelect" title="Syntax highlighting"><option value="markdown">Markdown</option><option value="plain">Plain text</option><option value="javascript">JavaScript</option><option value="json">JSON</option><option value="html">HTML</option><option value="css">CSS</option></select>
+                <span class="toolbar-divider"></span>
+                <button id="wrapToggle" class="tool-button is-active" title="Toggle line wrapping" aria-pressed="true"><svg class="icon"><use href="#i-wrap"/></svg><span>Wrap</span></button>
+                <button id="previewToggle" class="tool-button" title="Toggle Markdown preview (⌘ ⇧ P)" aria-pressed="false"><svg class="icon"><use href="#i-eye"/></svg><span>Preview</span></button>
+                <button id="focusToggle" class="tool-button" title="Focus mode" aria-pressed="false"><svg class="icon"><use href="#i-focus"/></svg><span>Focus</span></button>
+              </div>
+              <div class="toolbar-group right-tools">
+                <button id="importButton" class="tool-button" title="Import text file"><svg class="icon"><use href="#i-upload"/></svg><span>Import</span></button>
+                <button id="exportButton" class="tool-button tool-button-emphasis" title="Download document"><svg class="icon"><use href="#i-download"/></svg><span>Export</span></button>
+              </div>
+            </div>
+            <div class="editing-surface" id="editingSurface">
+              <div id="editor" aria-label="Document content"></div>
+              <aside class="preview-panel" id="previewPanel" hidden>
+                <div class="preview-heading"><span>LIVE PREVIEW</span><span class="preview-indicator"></span></div>
+                <article id="previewContent" class="preview-content" aria-live="polite"></article>
+              </aside>
+            </div>
+            <div class="statusbar">
+              <div class="status-left"><span class="saved-indicator"></span><span id="storageLabel">Saved on this device</span></div>
+              <div class="status-right"><span id="wordCount">0 words</span><span class="status-divider"></span><span id="characterCount">0 characters</span><span class="status-divider"></span><span id="cursorPosition">Ln 1, Col 1</span></div>
+            </div>
+          </section>
+          <div class="workspace-footer"><div><span class="footer-star">✦</span> A quieter place for your best ideas.</div><button id="shortcutsButton" class="shortcuts-link"><svg class="icon"><use href="#i-command"/></svg> Keyboard shortcuts</button></div>
+        </div>
+      </main>
+    </div>
+  </div>
+  <input type="file" id="fileInput" hidden multiple accept=".txt,.md,.markdown,.js,.jsx,.ts,.tsx,.json,.html,.htm,.css,.xml,.csv,.py,.yml,.yaml,.log,text/*">
+  <dialog id="shortcutsDialog" class="app-dialog">
+    <div class="dialog-heading"><h2>Keyboard shortcuts</h2><button class="icon-button close-dialog" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button></div>
+    <p class="dialog-subtitle">Keep your hands on the keyboard and your ideas flowing.</p>
+    <div class="shortcut-row"><span>New document</span><kbd>⌘ / Ctrl + N</kbd></div>
+    <div class="shortcut-row"><span>Save now</span><kbd>⌘ / Ctrl + S</kbd></div>
+    <div class="shortcut-row"><span>Search documents</span><kbd>⌘ / Ctrl + K</kbd></div>
+    <div class="shortcut-row"><span>Toggle preview</span><kbd>⌘ / Ctrl + Shift + P</kbd></div>
+    <div class="shortcut-row"><span>Download current file</span><kbd>⌘ / Ctrl + Shift + E</kbd></div>
+  </dialog>
+  <dialog id="deleteDialog" class="app-dialog">
+    <div class="dialog-heading"><h2>Delete document?</h2><button class="icon-button close-dialog" aria-label="Close"><svg class="icon"><use href="#i-x"/></svg></button></div>
+    <p class="dialog-subtitle">This will permanently remove this document from your device. Export it first if you want to keep a copy.</p>
+    <div class="dialog-actions"><button id="cancelDelete" class="button button-outline">Cancel</button><button id="confirmDelete" class="button button-danger">Delete document</button></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
 </html>

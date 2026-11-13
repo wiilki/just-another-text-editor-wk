@@ -1,42 +1,65 @@
-// Import methods to save and get data from the indexedDB database in './database.js'
-import { getDb, putDb } from './database';
-import { header } from './header';
+import CodeMirror from 'codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/gfm/gfm';
+import 'codemirror/mode/xml/xml';
+import 'codemirror/mode/css/css';
+import 'codemirror/mode/htmlmixed/htmlmixed';
+import 'codemirror/addon/mode/overlay';
+import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/selection/active-line';
+import { LANGUAGES } from './document-utils.mjs';
 
-export default class {
-  constructor() {
-    const localData = localStorage.getItem('content');
-
-    // check if CodeMirror is loaded
-    if (typeof CodeMirror === 'undefined') {
-      throw new Error('CodeMirror is not loaded');
-    }
-
-    this.editor = CodeMirror(document.querySelector('#main'), {
+export default class Editor {
+  constructor(container, onChange, onCursorChange) {
+    this.suspended = false;
+    this.instance = CodeMirror(container, {
       value: '',
-      mode: 'javascript',
-      theme: 'monokai',
+      mode: 'gfm',
       lineNumbers: true,
       lineWrapping: true,
-      autofocus: true,
+      styleActiveLine: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
       indentUnit: 2,
       tabSize: 2,
+      viewportMargin: 10,
+      extraKeys: {
+        'Tab': cm => {
+          if (cm.somethingSelected()) cm.indentSelection('add');
+          else cm.replaceSelection('  ', 'end');
+        }
+      }
     });
-
-    // When the editor is ready, set the value to whatever is stored in indexeddb.
-    // Fall back to localStorage if nothing is stored in indexeddb, and if neither is available, set the value to header.
-    getDb().then((data) => {
-      console.info('Loaded data from IndexedDB, injecting into editor');
-      this.editor.setValue(data || localData || header);
+    this.instance.on('change', () => {
+      if (!this.suspended) onChange(this.getValue());
     });
-
-    this.editor.on('change', () => {
-      localStorage.setItem('content', this.editor.getValue());
-    });
-
-    // Save the content of the editor when the editor itself is loses focus
-    this.editor.on('blur', () => {
-      console.log('The editor has lost focus');
-      putDb(localStorage.getItem('content'));
+    this.instance.on('cursorActivity', () => {
+      const cursor = this.instance.getCursor();
+      onCursorChange(cursor.line + 1, cursor.ch + 1);
     });
   }
+
+  setDocument(document) {
+    this.suspended = true;
+    this.instance.setOption('mode', (LANGUAGES[document.language] || LANGUAGES.plain).mode);
+    this.instance.setValue(document.content || '');
+    this.instance.clearHistory();
+    this.suspended = false;
+    this.instance.refresh();
+  }
+
+  setLanguage(language) {
+    this.instance.setOption('mode', (LANGUAGES[language] || LANGUAGES.plain).mode);
+  }
+
+  setWrapping(enabled) {
+    this.instance.setOption('lineWrapping', enabled);
+  }
+
+  getValue() { return this.instance.getValue(); }
+  focus() { this.instance.focus(); }
+  refresh() { this.instance.refresh(); }
 }

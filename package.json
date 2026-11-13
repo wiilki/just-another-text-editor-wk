@@ -1,25 +1,19 @@
 {
-  "name": "JATE",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "jate-studio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "An offline-first personal document and code editor.",
   "scripts": {
-    "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
-    "start": "npm run build && cd server && node server.js",
-    "server": "cd server nodemon server.js --ignore client",
-    "build": "cd client && npm run build",
-    "install": "cd client && npm install",
-    "client": "cd client && npm start"
+    "postinstall": "npm --prefix client install --no-audit --no-fund",
+    "build": "npm --prefix client run build",
+    "start": "node server/server.js",
+    "dev": "npm --prefix client run dev",
+    "test": "node --test tests/*.test.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
-    "express": "^4.17.1",
-    "if-env": "^1.0.4"
-  },
-  "devDependencies": {
-    "concurrently": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "express": "^4.21.2"
   }
 }
