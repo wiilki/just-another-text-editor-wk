@@ -1,0 +1,39 @@
+name: Verify JATE Studio
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install
+        run: npm install --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: Build offline application
+        run: npm run build
+      - name: Start server and check application
+        shell: bash
+        run: |
+          npm start > /tmp/jate-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid 2>/dev/null || true' EXIT
+          for i in {1..20}; do
+            if curl -fsS http://localhost:3000/ -o /tmp/jate-home.html; then
+              grep -q 'JATE Studio' /tmp/jate-home.html
+              curl -fsS http://localhost:3000/src-sw.js -o /dev/null
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/jate-server.log
+          exit 1

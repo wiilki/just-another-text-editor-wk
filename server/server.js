@@ -1,12 +1,12 @@
+const path = require('node:path');
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
+const staticDir = path.resolve(__dirname, '../client/dist');
 
-app.use(express.static('../client/dist'));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.disable('x-powered-by');
+app.use(express.static(staticDir, { maxAge: '1h', index: 'index.html' }));
+app.get('*', (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
 
-require('./routes/htmlRoutes')(app);
-
-app.listen(PORT, () => console.log(`Now listening on port: ${PORT}`));
+app.listen(PORT, () => console.log('JATE Studio listening on port ' + PORT));
